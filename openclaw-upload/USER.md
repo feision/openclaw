@@ -1,8 +1,8 @@
 # USER.md - About Your Human + 开机指令
 
 ## 👤 基本信息
-- **Name:** 飞星
-- **What to call them:** 飞星
+- **Name:** 用户
+- **What to call them:** 用户
 - **Pronouns:** (optional)
 - **Timezone:** Asia/Shanghai (UTC+8)
 - **Timezone offset:** +8
@@ -82,14 +82,16 @@ HEARTBEAT.md 内容：
 ### 活跃项目
 1. **OpenClaw GitHub Workflow Skills**
    - **仓库:** https://github.com/feision/openclaw-github-workflow-skills
+   - **本地路径:** `/home/node/.openclaw/workspace/openclaw-github-workflow-skills`
    - **状态:** 学习中/开发中
    - **目标:** 掌握 GitHub API + Maton Gateway / GitHub PAT
    - **下一步:** 配置 PAT，测试连接，运行 `github_setup.py`
    - **关键文档:** README.md, QUICK_START.md, PERMISSION_TROUBLESHOOTING.md
+   - **核心技能:** exec(security=full, ask=off) 处理权限、使用 Contents API 上传文件、处理 Rate Limits
 
 2. **Node-magic-change-panel**
-   - 状态：需要维护/改进
-   - 路径：`/home/node/.openclaw/workspace/Node-magic-change-panel.js`
+   - **状态:** 需要维护/改进
+   - **路径:** `/home/node/.openclaw/workspace/Node-magic-change-panel.js`
 
 ### 待办
 - 配置 GitHub PAT 完成连接

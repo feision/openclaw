@@ -16,7 +16,7 @@
 
 ## 👤 用户信息
 
-- **Name:** 飞星
+- **Name:** 用户
 - **Timezone:** Asia/Shanghai (UTC+8)
 - **Communication style:** 务实、直接、技术性
 - **Preferences:** 简洁回复，具体建议，不喜欢空泛评价
@@ -69,6 +69,9 @@
 
 ### 2026-04-05 03:52
 - 用户询问连接 GitHub 的方式
+- 提供方案选择：Maton Gateway vs GitHub PAT
+- 用户选择 B（GitHub PAT）
+- **等待用户提供 PAT**
 - 提供方案选择：Maton Gateway vs GitHub PAT
 - 用户选择 B（GitHub PAT）
 - **等待用户提供 PAT**

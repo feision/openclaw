@@ -1,0 +1,42 @@
+# OpenClaw 启动配置 .gitignore
+
+# 敏感信息
+.env
+.secrets/
+*.key
+*.pem
+credentials.json
+tokens.json
+
+# 临时文件
+*.tmp
+*.temp
+*.log
+*.pid
+
+# 系统
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Python
+__pycache__/
+*.py[cod]
+venv/
+env/
+
+# Node
+node_modules/
+
+# 同步冲突
+*.sync-conflict
+
+# 备份
+*.bak
+*.backup

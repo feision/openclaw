@@ -1,8 +1,6 @@
 # openclaw-github-workflow-skills
 OpenClaw GitHub Workflow Tutorial - Complete guide for AI assistants to use GitHub APIs
 
-> 本项目面向 OpenClaw AI 助手，系统化讲解如何使用 GitHub API 进行仓库、分支、文件、PR 等操作，包含权限处理、错误恢复与完整工作流示例，适合快速上手与生产实践。
-
 ## 📚 文档导航
 
 - **QUICK_START.md** - 5分钟快速上手
