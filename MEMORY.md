@@ -81,6 +81,16 @@
 
 ---
 
+## 🔧 技术要点（2026-04-05 更新）
+
+### GitHub API 端点选择
+- **列出所有仓库（含私有）**: `GET /user/repos` ✅
+- **列出他人公开仓库**: `GET /users/{username}/repos` (仅公开) ❌
+- 错误使用 `/users/feision/repos` 导致无法看到私有仓库
+- 已在 `README.md` 和 `QUICK_START.md` 添加明确说明
+
+---
+
 ## ⚙️ 偏好与约束
 
 ### 执行策略
