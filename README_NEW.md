@@ -65,3 +65,7 @@ A: 检查内容是否包含敏感信息（Token），移除后重试
 ## 📖 许可
 
 MIT License
+
+---
+
+*本助手使用的模型：`openrouter/stepfun/step-3.5-flash:free`（默认模型）*
