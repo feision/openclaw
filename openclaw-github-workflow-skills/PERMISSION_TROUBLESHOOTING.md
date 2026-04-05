@@ -59,56 +59,6 @@ exec(command="...", security="full", ask="off")
 
 ---
 
-### 3. 文件内容出现 base64 编码（双重编码问题）
-
-**场景**: 使用 GitHub Git API（low-level）创建 tree/blob 时，文件内容在网页上显示为 base64 字符串而非原文
-
-**现象**:
-- 本地文件是正常中文 Markdown
-- 上传后 GitHub 网页显示一长串 base64 字符（如 `IyBPcGVuQ2xhdyD...`）
-- 文件大小异常：原始 5246 字节 → base64 后 8596 字节（正常），但网页显示的正是这串 base64
-
-**原因分析**:
-GitHub Git API 的 tree creation 要求 `content` 字段提供文件的 **base64 编码**。如果编码流程出错（例如：文件本身已含 base64 内容、或 tree 创建时重复编码），会导致文件在仓库中存储为 base64 字符串，而非 UTF-8 文本。
-
-**排查过程**:  
-1. 读取本地文件 → 正常中文
-2. 创建 tree 时：`content = base64.b64encode(file_bytes).decode()` 生成 base64 字符串 → 传入 API
-3. GitHub 应自动解码存储 → 但实际存储的是 base64 字符串
-4. **根本原因**: 第一次 tree 创建时已生成了错误的 blob（已 base64 字符串为内容），后续分支复用了该 blob SHA，导致问题扩散
-5. **触发条件**: GitHub 安全规则检测到真实 Token 时返回 409 冲突，阻止上传
-
-**解决方案**:
-1. **删除错误分支**：`/exec security=full ask=off curl -X DELETE .../git/refs/heads/Openclaw`
-2. **清理本地文件**：确保文件内容是纯文本，不含 base64 编码内容
-3. **从 main 重新创建分支**：基于最新的 main commit 创建干净分支
-4. **推荐使用 Contents API**（而非 low-level Git API）来上传文件，GitHub 会自动处理编码
-
-**关键点**:
-- Contents API 会自动校验内容，避免双重编码
-- 上传前确保文件内容为 UTF-8 纯文本
-- 如果文件包含敏感信息（Token），GitHub 会拒绝提交（409 Conflict - Secret detected）
-
----
-
-### 4. 分支管理最佳实践
-
-**问题**: 反复创建分支导致分支过多
-
-**建议**:
-- **复用现有分支**: 检查分支是否存在，存在则强制更新指向 main 最新 commit
-  ```bash
-  # 删除旧分支（如果存在）
-  /exec security=full ask=off curl -X DELETE .../git/refs/heads/Openclaw
-  
-  # 从 main 创建新分支
-  /exec security=full ask=off curl -X POST -d '{"ref":"refs/heads/Openclaw","sha":"<main_sha>"}' ...
-  ```
-- **分支命名约定**: 使用固定分支名（如 `Openclaw`）用于自动化，避免每次都创建新分支
-- **清理策略**: 合并 PR 后删除工作分支，下次重新创建
-
----
-
 ## 最终工作流程
 
 ### 步骤 1: 读取环境变量（需要权限）
@@ -297,6 +247,18 @@ PYEOF
 - 将 `github_setup.py` 脚本加入仓库的 `scripts/` 目录
 - 在 `QUICK_START.md` 中加入本指南的链接
 - 考虑编写自动化工具封装常见操作
+
+---
+
+## 更新历史
+
+### v1.0.0 (2026-04-05)
+
+- 新增 `PERMISSION_TROUBLESHOOTING.md` 文档
+- 记录 OpenClaw 权限问题解决方案（`exec security=full ask=off`）
+- 包含 GitHub API vs Maton Gateway 对比
+- 提供实战命令示例
+- **模型信息**: 经过两次确认，本次修改使用的 AI 模型是 `openrouter/stepfun/step-3.5-flash:free`
 
 ---
 
