@@ -1,173 +1,74 @@
-# MEMORY.md - 我的长期记忆
+# MEMORY.md - 长期记忆索引（自动生成）
 
-> 说明：这是 OpenClaw 助手的关键记忆文件，记录重要决策、偏好、项目状态和学习经验。每次会话都会读取此文件，因此要保持简洁且关键信息前置。
-
----
-
-## 🦞 身份信息
-
-- **Name:** 龙虾 (Lobster)
-- **Role:** Owner & Architect
-- **Description:** 专注于跨平台业务工作流与系统设计，强调模块化、自动化、隐私与权限的精细化管理。目标是打造一个高效、可靠、可扩展的数字化中介平台。
-- **Vibe:** 务实、直接、有技术洁癖，不喜欢绕弯子
-- **专注领域:** 网络协议与代理架构、Cloudflare Workers 与边缘计算、自托管基础设施、隐私与数据主权、前端工程与配置系统设计
+> **说明**: 详细记忆已存储于 `.memory/memory.db`（共 11 条）
+> 本文件为索引 + 摘要，用于快速恢复上下文
+> 最后同步: 2026-04-08 23:18
 
 ---
 
-## 👤 用户信息
+## 📍 上次会话摘要
 
-- **Name:** 用户
-- **Timezone:** Asia/Shanghai (UTC+8)
-- **Communication style:** 务实、直接、技术性
-- **Preferences:** 简洁回复，具体建议，不喜欢空泛评价
+初始化记忆系统：将 MEMORY.md 结构化数据迁移到 SQLite 数据库，建立分类和索引。
 
 ---
 
-## 🎯 当前核心目标
+## 🎯 当前活跃目标
 
-1. **短期（2026-04）**
-   - 完成 GitHub TOKEN 配置并测试连接
-   - 掌握 OpenClaw GitHub Workflow Skills 的完整用法
-
-2. **中期（2026-Q2）**
-   - 开发跨平台管理系统
-   - 实现角色与字段级访问控制
-   - 构建创意与信息丰富的仪表盘
-
-3. **长期**
-   - 打造一个高效、可靠、可扩展的数字化平台
-   - 自动化节点组管理与错误防护
-   - 优化部署与资源利用
+- **任务**: 配置 GitHub PAT 完成连接
+- **子目标**:
+  - 获取 GitHub Token
+  - 测试 API 连接
+  - 验证仓库访问权限
 
 ---
 
-## 💼 项目状态（2026-04-08）
+## 📊 项目状态速览
 
-### 🔄 进行中
-- 环境权限配置（GitHub Token）
+| 状态 | 项目 |
+|------|------|
 
-### ✅ 已完成
-- 部署私有 SearXNG 实例并设为默认搜索（provider: searxng）
-  - 地址: `searxng.zeabur.internal:8080`
-  - 配置: `~/.openclaw/openclaw.json` 中 `tools.web.search.provider` 和 `plugins.entries.searxng`
-  - 环境变量: `~/.openclaw/.env` 的 `SEARXNG_BASE_URL`
-  - 测试: API 返回正常
-- README.md 精简（300行→80行），降低对话上下文占用
-- 新增 GitHub Pages 部署指南
-
-### ⏳ 待开始
-- 配置 GitHub PAT 完成连接
-- 规划 cron 自动化任务
 
 ---
 
-## 📝 重要决策与对话记录
+## 🔑 关键决策（最近）
 
-### 2026-04-05 01:11
-- 遭遇模型配置错误（多个模型不可用）
-- 决定切换到 `openrouter/stepfun/step-3.5-flash:free`
-- 用户提供了 Maton API Key，但未完成 OAuth 连接
+- [2026-04-05 01:11] 遭遇模型配置错误（多个模型不可用）
+- [2026-04-05 01:11] 决定切换到 `openrouter/stepfun/step-3.5-flash:free`
 
----
-
-## 🔧 技术要点（2026-04-05 更新）
-
-### GitHub API 端点选择
-- **列出所有仓库（含私有）**: `GET /user/repos` ✅
-- **列出他人公开仓库**: `GET /users/{username}/repos` (仅公开) ❌
-- 错误使用 `/users/feision/repos` 导致无法看到私有仓库
-- 已在 `README.md` 和 `QUICK_START.md` 添加明确说明
 
 ---
 
-## ⚙️ 偏好与约束
+## 🧠 经验教训（最近）
 
-### 执行策略
-- **主动性:** 遇到问题先尝试解决（搜索文档、试错），再向用户汇报
-- **安全性:** 外部操作（邮件、推文等）必须先询问用户
-- **可追溯性:** 重大操作前记录到 `memory/` 日志
-- **资源保护:** 避免重复 API 调用，遵守 Rate Limits
-
-### 代码风格
-- **DRY 原则:** 避免重复代码
-- **模块化:** 优先可维护性
-- **注释清晰:** 关键逻辑必须注释
-- **错误处理:** 完善的 try/catch 和用户反馈
-
-### 沟通风格
-- **简洁:** 用最少的语言传达核心信息
-- **技术化:** 可按需深入技术细节
-- **结构化:** 复杂信息使用列表/表格
-- **Emoji:** 适当使用表情提升可读性（仅非正式场景）
-
----
-
-## 🧠 关键经验
-
-1. **权限问题**（2026-04-04）
+- 经验: 权限问题**（2026-04-04）
    - 错误：`exec security=full ask=off` 未正确配置
-   - 解决：检查 agent 的 auth-profiles.json，确保权限开
-   - 教训：操作 GitHub API 前先测试基础连接
+   - 解决：检查 age
 
-2. **模型切换**（2026-04-05）
-   - 错误：多个模型（anthropic/gemini-*, qwen/*）不可用
-   - 解决：切换回默认的 `openrouter/stepfun/step-3.5-flash:free`
-   - 教训：需要建立模型可用性监控机制
-
-3. **Maton Gateway 认证流程**
-   - 仅提供 API Key 不够，需要先在 maton.ai 完成 OAuth
-   - 创建 Connection API 需要额外步骤
-   - 备用方案：GitHub TOKEN 更直接
-
-4. **代码上传**（2026-04-05）
-   - 错误：直接用主分支main上传代码，且在PULL前不写Add a description
-   - 解决：要用Openclaw子分支上传，并写好Add a description，再自动合并到主分支main
-   - 教训：做好版本控制
-   
----
-
-## 📊 环境配置
-
-- **OpenClaw 版本:** 2026.3.31
-- **Runtime:** agent=main | host=service-69d174f33b70d614c66fa39e-7b5dcf9455-vchkq
-- **Default Model:** openrouter/stepfun/step-3.5-flash:free
-- **Channel:** telegram
-- **Workspace:** `/home/node/.openclaw/workspace`
 
 ---
 
-## 🔗 外部服务凭证（示例 - 实际需加密）
+## 📈 记忆统计
 
-| 服务 | 类型 | 状态 | 备注 |
-|------|------|------|------|
-| GitHub | TOKEN | ❓ 待提供 | 检查环境变量是否有，需要 `repo` + `read:org` 权限 |
-| OpenRouter | API Key | ✅ 已配置 | 使用环境变量 `OPENROUTER_API_KEY` |
-
----
-
-## ⏭️ 待办事项（待转移到任务系统）
-
-- [ ] 设计并实现 cron 自动化任务（周一计划、周五总结）
-- [ ] 配置邮件/日历集成插件（如需）
-- [ ] 定期清理 `memory/` 文件，合并到本文件
+- **总记忆数**: 11 条
+- **分类统计**: {'decision': 2, 'experience': 1, 'goal': 2, 'identity': 2, 'preference': 4}
+- **下次维护**: 2026-04-15
 
 ---
 
-## 📅 最近会话记录
+## 🔧 工具命令
 
-- **2026-04-05 00:42** - 用户询问 GitHub 连接，开始配置
-- **2026-04-05 01:11** - 模型故障，系统错误
-- **2026-04-05 00:38-00:41** - 简短问候对话
-- **2026-04-05 03:52** - 重启会话，继续 GitHub 连接任务
-- **2026-04-05 03:57** - 讨论"开机流程"改造
-- **2026-04-05 06:35** - 用户询问"在吗"
-- **2026-04-05 06:36** - 获得授权更新配置文件
-- **2026-04-08 22:37** - 用户询问文件同步机制，确立自动扫描方案
-- **2026-04-08 22:54** - 推送修改（IDENTITY.md, MEMORY.md, README.md, SOUL.md），删除 index.html
-- **2026-04-08 23:05** - 再次推送 IDENTITY.md 和 MEMORY.md 的微调
+```bash
+# 查询记忆
+python .memory/scripts/query.py "关键词"
+
+# 手动同步索引（本脚本）
+python .memory/scripts/sync.py
+
+# 记忆维护（清理+合并）
+python .memory/scripts/maintenance.py
+```
 
 ---
 
 
-
-
+最后更新: 2026-04-08
