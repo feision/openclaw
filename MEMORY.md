@@ -26,37 +26,38 @@
 ## 🎯 当前核心目标
 
 1. **短期（2026-04）**
-   - 完成 GitHub PAT 配置并测试连接
+   - 完成 GitHub TOKEN 配置并测试连接
    - 掌握 OpenClaw GitHub Workflow Skills 的完整用法
-   - 维护和优化 Node-magic-change-panel.js
 
 2. **中期（2026-Q2）**
-   - 开发跨平台简历管理系统
+   - 开发跨平台管理系统
    - 实现角色与字段级访问控制
    - 构建创意与信息丰富的仪表盘
 
 3. **长期**
-   - 打造一个高效、可靠、可扩展的数字化中介平台
+   - 打造一个高效、可靠、可扩展的数字化平台
    - 自动化节点组管理与错误防护
    - 优化部署与资源利用
 
 ---
 
-## 💼 项目状态（2026-04-05）
-
-### ✅ 完成
-- OpenClaw GitHub Workflow 教程仓库克隆
-- 初始 USER.md 配置（增强版）
+## 💼 项目状态（2026-04-08）
 
 ### 🔄 进行中
-- GitHub 连接配置（等待用户提供 PAT）
-- Node-magic-change-panel.js 的理解与维护
-- 环境权限配置（Maton Gateway vs GitHub Token）
+- 环境权限配置（GitHub Token）
+
+### ✅ 已完成
+- 部署私有 SearXNG 实例并设为默认搜索（provider: searxng）
+  - 地址: `searxng.zeabur.internal:8080`
+  - 配置: `~/.openclaw/openclaw.json` 中 `tools.web.search.provider` 和 `plugins.entries.searxng`
+  - 环境变量: `~/.openclaw/.env` 的 `SEARXNG_BASE_URL`
+  - 测试: API 返回正常
+- README.md 精简（300行→80行），降低对话上下文占用
+- 新增 GitHub Pages 部署指南
 
 ### ⏳ 待开始
-- 使用 GitHub API 进行实际操作（上传文件、创建 PR 等）
+- 配置 GitHub PAT 完成连接
 - 规划 cron 自动化任务
-- 配置邮件/日历集成
 
 ---
 
@@ -66,18 +67,6 @@
 - 遭遇模型配置错误（多个模型不可用）
 - 决定切换到 `openrouter/stepfun/step-3.5-flash:free`
 - 用户提供了 Maton API Key，但未完成 OAuth 连接
-
-### 2026-04-05 03:52
-- 询问连接 GitHub 的方式
-- 提供方案选择：Maton Gateway vs GitHub PAT
-- 选择 B（GitHub PAT）
-- **等待提供 PAT**
-
-### 2026-04-05 03:57
-- 用户询问"开机流程"改造方案
-- 设计增强版 USER.md 模板
-- 初始化 HEARTBEAT.md 任务列表
-- 创建本 MEMORY.md 文件
 
 ---
 
@@ -128,8 +117,13 @@
 3. **Maton Gateway 认证流程**
    - 仅提供 API Key 不够，需要先在 maton.ai 完成 OAuth
    - 创建 Connection API 需要额外步骤
-   - 备用方案：GitHub PAT 更直接
+   - 备用方案：GitHub TOKEN 更直接
 
+4. **代码上传**（2026-04-05）
+   - 错误：直接用主分支main上传代码，且不写committed
+   - 解决：要用Openclaw子分支上传，并写好committed，再自动合并到主分支main
+   - 教训：做好版本控制
+   
 ---
 
 ## 📊 环境配置
@@ -146,16 +140,13 @@
 
 | 服务 | 类型 | 状态 | 备注 |
 |------|------|------|------|
-| GitHub | PAT | ❓ 待提供 | 需要 `repo` + `read:org` 权限 |
-| Maton | API Key | ✅ 已提供 | OAuth 连接未完成 |
+| GitHub | TOKEN | ❓ 待提供 | 检查环境变量是否有，需要 `repo` + `read:org` 权限 |
 | OpenRouter | API Key | ✅ 已配置 | 使用环境变量 `OPENROUTER_API_KEY` |
 
 ---
 
 ## ⏭️ 待办事项（待转移到任务系统）
 
-- [ ] 等待用户提供 GitHub PAT 并测试连接
-- [ ] 验证 `Node-magic-change-panel.js` 的功能完整性
 - [ ] 设计并实现 cron 自动化任务（周一计划、周五总结）
 - [ ] 配置邮件/日历集成插件（如需）
 - [ ] 定期清理 `memory/` 文件，合并到本文件
@@ -174,33 +165,6 @@
 
 ---
 
-## 📚 重要学习资源
 
-### OpenClaw GitHub Workflow Skills
-**仓库**: https://github.com/feision/openclaw-github-workflow-skills  
-**用途**: GitHub API 操作、分支管理、PR 流程的完整教程  
-**本地路径**: `openclaw-github-workflow-skills/`（独立仓库，需单独克隆）
-
-#### 推荐阅读顺序（必读）
-1. **COMPLETE_WORKFLOW.md** ⭐ - 完整工作流（实战记录，含错误排查）
-2. **SETUP_GUIDE.md** - 环境配置（Token 设置、认证）
-3. **QUICK_START.md** - 5分钟快速上手
-4. **PERMISSION_TROUBLESHOOTING.md** - OpenClaw 权限问题处理（`exec security=full ask=off`）
-5. **ERROR_HANDLING.md** - 错误诊断与解决
-
-#### 关键命令速查
-- 设置 Token: `export GITHUB_TOKEN="ghp_..."`
-- 测试连接: `python3 example_scripts/test_connection.py`
-- 文件上传: 使用 GitHub Contents API（Base64 编码）
-- 权限绕过: `exec security=full ask=off <command>`
-
-#### 分支策略（核心）
-- `main` - 默认稳定分支
-- `openclaw` - 开发分支（从 main 创建）
-- PR 流程: openclaw → main
-
----
-
-**记住：遇到 GitHub 操作问题，先读 COMPLETE_WORKFLOW.md！** 🎯
 
 
