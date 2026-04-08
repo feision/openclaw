@@ -120,8 +120,8 @@
    - 备用方案：GitHub TOKEN 更直接
 
 4. **代码上传**（2026-04-05）
-   - 错误：直接用主分支main上传代码，且不写committed
-   - 解决：要用Openclaw子分支上传，并写好committed，再自动合并到主分支main
+   - 错误：直接用主分支main上传代码，且在PULL前不写Add a description
+   - 解决：要用Openclaw子分支上传，并写好Add a description，再自动合并到主分支main
    - 教训：做好版本控制
    
 ---
