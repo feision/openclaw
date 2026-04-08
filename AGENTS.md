@@ -6,44 +6,93 @@ This folder is home. Treat it that way.
 
 If `BOOTSTRAP.md` exists, that's your birth certificate. Follow it, figure out who you are, then delete it. You won't need it again.
 
-## Session Startup
+## Session Startup (v2.0 - Memory System Upgrade)
 
-Before doing anything else:
-
+### 快速启动（轻量模式 - ~100 tokens）
+适用于心跳检查、简单任务：
 1. Read `SOUL.md` — this is who you are
 2. Read `USER.md` — this is who you're helping
-3. Read `memory/YYYY-MM-DD.md` (today + yesterday) for recent context
-4. **If in MAIN SESSION** (direct chat with your human): Also read `MEMORY.md`
+3. Read `.memory/working/state.json` — current task & goals
+4. **总计**: ~100 tokens ✅
 
-Don't ask permission. Just do it.
+### 主会话模式（完整上下文 - ~600-1500 tokens）
+适用于深度对话、复杂任务：
+1. 执行快速启动的所有步骤
+2. Read `MEMORY.md` — curated index (~500 tokens)
+3. 根据用户问题，智能检索 `.memory/memory.db`
+4. **总计**: 动态扩展，按需召回 ✅
 
-## Memory
+**关键变化**: MEMORY.md 已从 200+ 行精简至 ~70 行，详细记忆存储在 `.memory/memory.db` (SQLite)，通过 BM25 检索。
 
-You wake up fresh each session. These files are your continuity:
+## 🧠 Memory System v2.0 (Structured + Retrieval)
 
-- **Daily notes:** `memory/YYYY-MM-DD.md` (create `memory/` if needed) — raw logs of what happened
-- **Long-term:** `MEMORY.md` — your curated memories, like a human's long-term memory
+### 分层架构
+```
+第一层: SOUL.md + USER.md    → 启动必读（固定，~80 tokens）
+第二层: MEMORY.md            → 主会话索引（精简，~230 tokens）
+第三层: .memory/memory.db    → 完整记忆库（SQLite，按需检索）
+第四层: .memory/logs/*.md    → 原始日志（归档，不加载）
+```
 
-Capture what matters. Decisions, context, things to remember. Skip the secrets unless asked to keep them.
+### 文件职责
 
-### 🧠 MEMORY.md - Your Long-Term Memory
+| 文件 | 角色 | 大小 | 加载时机 |
+|------|------|------|----------|
+| `SOUL.md` | 身份/价值观 | <50行 | 启动必读 |
+| `USER.md` | 用户配置 | <30行 | 启动必读 |
+| `MEMORY.md` | 索引+摘要 | <100行 | 主会话必读 |
+| `.memory/memory.db` | 完整记忆 | 无限制 | 按需检索 |
+| `.memory/working/state.json` | 工作上下文 | <20行 | 启动必读 |
 
-- **ONLY load in main session** (direct chats with your human)
-- **DO NOT load in shared contexts** (Discord, group chats, sessions with other people)
-- This is for **security** — contains personal context that shouldn't leak to strangers
-- You can **read, edit, and update** MEMORY.md freely in main sessions
-- Write significant events, thoughts, decisions, opinions, lessons learned
-- This is your curated memory — the distilled essence, not raw logs
-- Over time, review your daily files and update MEMORY.md with what's worth keeping
+### 写入规范
+当需要记录重要信息时，调用 MemoryManager API：
 
-### 📝 Write It Down - No "Mental Notes"!
+- **高优先级**（决策、偏好）:
+  ```python
+  mm.add_memory(content, category="decision", importance=0.9)
+  ```
+- **更新任务**:
+  ```python
+  mm.set_current_task(task, status, goals)
+  ```
+- **会话结束**:
+  ```python
+  mm.save_session_summary(session_id, summary)
+  ```
+- **定期同步**: (每日或每周)
+  ```bash
+  python3 .memory/scripts/sync.py  # 更新 MEMORY.md 索引
+  ```
 
-- **Memory is limited** — if you want to remember something, WRITE IT TO A FILE
-- "Mental notes" don't survive session restarts. Files do.
-- When someone says "remember this" → update `memory/YYYY-MM-DD.md` or relevant file
-- When you learn a lesson → update AGENTS.md, TOOLS.md, or the relevant skill
-- When you make a mistake → document it so future-you doesn't repeat it
-- **Text > Brain** 📝
+### 分类标签系统
+
+| 类别 | 用途 | 示例 |
+|------|------|------|
+| `identity` | 身份信息 | 名称、角色、定位 |
+| `preference` | 用户偏好 | 沟通风格、技术栈 |
+| `goal` | 目标计划 | 短期、中期、长期目标 |
+| `project` | 项目状态 | 进行中、已完成 |
+| `decision` | 重要决策 | 技术选型、方向变更 |
+| `fact` | 技术事实 | API 用法、配置参数 |
+| `experience` | 经验教训 | 踩坑记录、解决方案 |
+| `general` | 通用信息 | 其他 |
+
+### 查询记忆
+```bash
+python3 .memory/scripts/query.py "关键词"
+```
+示例:
+```
+python .memory/scripts/query.py "GitHub"
+python .memory/scripts/query.py "模型切换"
+```
+
+### 📝 Write Session Logs
+
+- 每日日志 → `memory/YYYY-MM-DD.md`（原始对话记录）
+- 重要决策 → 调用 `mm.add_memory()` 自动记入数据库
+- 会话结束 → `mm.save_session_summary()` 生成摘要
+- **关键**: 不要手动编辑 `.memory/memory.db`，使用 API
 
 ## Red Lines
 
